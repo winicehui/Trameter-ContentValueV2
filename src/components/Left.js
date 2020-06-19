@@ -33,16 +33,14 @@ class Left extends Component {
     }
 
     editInProgress = (bool) => {
-        console.log("EDIT I PROGRESS")
         this.setState({ edit_inprogress: bool})
     }
 
     handleToggleIndex = (index) => {
-        console.log("TOGGLE INDEX")
-        console.log(index)
         const { edit_inprogress } = this.state 
-        if (!edit_inprogress)
+        if (!edit_inprogress){
             this.setState({chosenIndex: index})
+        }
 
         // // clicking itself again 
         // if (index === chosenIndex) {
@@ -112,7 +110,6 @@ class Left extends Component {
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.chosenIndex)
         return (    
             this.state.dataLoaded ?
                 <Container>
@@ -160,7 +157,10 @@ class Left extends Component {
                     }
 
                     {this.state.data.map((element, i) => (
-                        <PostCard entry={element} key={element.id} chosenIndex={this.state.chosenIndex} handleToggleIndex={this.handleToggleIndex} editInProgress={this.editInProgress} />                        
+                        <PostCard entry={element} key={element.id} 
+                        chosenIndex={this.state.chosenIndex} 
+                        handleToggleIndex={this.handleToggleIndex} 
+                        editInProgress={this.editInProgress} />                        
                     ))}
 
                 </Container>

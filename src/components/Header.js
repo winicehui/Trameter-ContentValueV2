@@ -21,7 +21,6 @@ class Header extends Component {
         const postsRef = firebase.database().ref('/content');
         postsRef.on('value', (snapshot) => {
             let categories_C = snapshot.val();
-            console.log(categories_C)
             let C_list = {};
             let J_list = {}
             let all_C = 0
@@ -40,8 +39,6 @@ class Header extends Component {
                 J_list[category] = sum
                 all_C = all_C + count 
                 all_J = all_J + sum
-                console.log(C_list)
-                console.log(J_list)
             }
 
             C_list["All"] = all_C

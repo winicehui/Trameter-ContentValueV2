@@ -101,15 +101,13 @@ class postCard extends Component {
     }
 
     toggleEdit = () => {
-        console.log("EDITTOGGLE")
         const { edit, id } = this.state
         const newEdit = !edit
-        console.log(newEdit)
         this.setState({ edit: newEdit, text: 'try' })
-        console.log(id)
+
         this.props.handleToggleIndex(id)
         this.props.editInProgress(true)
-        console.log("END DITTOGGLE")
+
     }
 
     editPost() {
@@ -125,6 +123,7 @@ class postCard extends Component {
                 posting_date:firebase.database.ServerValue.TIMESTAMP,
             })
             this.props.editInProgress(false)
+            this.props.handleToggleIndex(id)
         //     axios({
         //         method: 'PUT',
         //         url: `/api/posts/editPost`,
@@ -148,16 +147,15 @@ class postCard extends Component {
 
     choosePost(){
         const { edit, id, chosenIndex } = this.state
-        // this.props.handleToggleIndex(id)
+        this.props.handleToggleIndex(id)
         // if(!edit) {
         //     this.setState({ chosenIndex: id })
         // }
 
-        console.log(edit)
-        // clicking itself again 
-        if (edit === false){
+        // console.log(edit)
+        // // clicking itself again 
+        // if (edit === false){
             if (id === chosenIndex) {
-                console.log("bug")
                 this.props.handleToggleIndex(0)
                 // this.setState({ chosenIndex: 0})
             }
@@ -166,7 +164,7 @@ class postCard extends Component {
                 this.props.handleToggleIndex(id)
                 // this.setState({ chosenIndex: id })
             }
-        }   
+        // }   
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -183,15 +181,17 @@ class postCard extends Component {
 
         if (this.state.isLoaded) return (
             <React.Fragment>
-                <p> {id}</p>
             <Fade in = {this.state.isLoaded}> 
+            
             <Grid
                 container
                 alignItems='center'
                 justify='center'
                 style={{ marginTop: '30px', marginBottom: '30px' }}
+                spacing = {1}
             >
-                <Grid item xs={12} sm={12} md={5} lg={11} >
+                <Grid item xs={12} sm={12} md={12} lg={11} >
+                            <p> {id}</p>
                             <Paper elevation={0} className="Add-Paper" onClick={this.choosePost} style={{ cursor: !edit ? 'pointer' : 'auto', backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
                         <div style={{ padding: '10px' }}>
                             <Grid container>
@@ -208,7 +208,7 @@ class postCard extends Component {
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
-                                        {!edit? 
+                                        {!edit ? 
                                             <EditIcon className={classes.iconButton}  onClick={this.toggleEdit} />
                                             : null}
                                 </Grid>
