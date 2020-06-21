@@ -36,10 +36,13 @@ class Left extends Component {
     // Toggles state varaibles : 0 when not editing, numeric when editing (with id of postCard being editted)
     handleToggleEditIndex = (index) => {
         const { editIndex } = this.state 
-        if (editIndex === 0)
+        if (editIndex === 0){
             this.setState({ editIndex: index, chosenIndex: index})
-        else if (editIndex === index)
+            this.props.handleToggleIndex(index)
+        } else if (editIndex === index){
             this.setState({ editIndex: 0, chosenIndex: index })
+            this.props.handleToggleIndex(index)
+        }
     }
 
     // Called when a postCard is selected 
@@ -49,8 +52,11 @@ class Left extends Component {
         if (editIndex === 0){
             if (index === chosenIndex) {
                 this.setState({ chosenIndex: 0 })
-            } else
+                this.props.handleToggleIndex(0)
+            } else{
                 this.setState({ chosenIndex: index })
+                this.props.handleToggleIndex(index)
+            }
         }
     }
 
@@ -111,7 +117,7 @@ class Left extends Component {
     // }
 
     render() {
-        const { classes } = this.props;
+        const { classes, chosenIndex } = this.props;
         console.log(this.state.chosenIndex)
         return (    
             this.state.dataLoaded ?

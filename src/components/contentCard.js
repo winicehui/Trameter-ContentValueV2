@@ -5,7 +5,7 @@ class contentCard extends Component {
     render() {
         const { content, C, J } = this.props
         return (
-            <Paper elevation = {0} square className = "ContentCard-Border">
+            <Paper elevation = {1} square className = "ContentCard-Border">
                 <p className="ContentCard-Label" style={{ backgroundColor: content.color }}> {content.content} </p>
                 <Grid
                     container

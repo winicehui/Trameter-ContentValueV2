@@ -21,12 +21,19 @@ class Body extends Component {
                     container
                 >
                     <Grid item xs={12} sm={6} 
-                        style={{ maxHeight: '544px', borderRight: '3px solid #707070', margin: '0px', padding: '0px', overflowY: 'scroll'}}>
+                        style={{ 
+                            maxHeight: '544px', 
+                            borderRight: '3px solid #707070', 
+                            margin: '0px', 
+                            padding: '0px', 
+                            overflowY: 'scroll'}}>
                     <Left handleToggleIndex={this.handleToggleIndex}/>
                     </Grid>
                     {/* <Divider orientation="vertical" flexItem /> */}
                     <Grid item xs={12} sm={6} style={{ borderLeft: '3px solid #707070'}}>
-                        {this.state.chosenIndex !== 0 ? <Right id = {this.state.choseIndex} /> : null}
+                        {this.state.chosenIndex !== 0 
+                            ? <Right id = {this.state.chosenIndex} /> 
+                            : null}
                     </Grid>
                 </Grid>
         );

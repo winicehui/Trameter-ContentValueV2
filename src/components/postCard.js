@@ -103,16 +103,13 @@ class postCard extends Component {
     }
 
     toggleEdit = (e) => {
-        console.log("Toggle Edit")
         e.stopPropagation()
         const { edit, id, editIndex} = this.state
         const newEdit = !edit
         if(editIndex === 0){
             this.setState({ edit: newEdit })
             this.props.handleToggleEditIndex(id)
-        }
-        // this.props.handleToggleIndex(id)
-        
+        }        
     }
 
     editPost() {
@@ -161,7 +158,6 @@ class postCard extends Component {
             : null
     }
 
-
     render() {
         const { text, social, content, posting_date, charCount, edit, id, chosenIndex } = this.state
         // choosePost is true when the chosenIndex is equal to the postCard's id
@@ -181,7 +177,7 @@ class postCard extends Component {
             >
                 <Grid item xs={12} sm={12} md={12} lg={11} >
                             <p> {id}</p>
-                    <Paper  elevation={0} 
+                    <Paper  elevation={2} 
                             className="Add-Paper" 
                             onClick={this.choosePost} 
                             style={{ 
