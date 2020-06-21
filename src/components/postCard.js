@@ -55,22 +55,24 @@ class postCard extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            charCount: 0,
+            id: null,
             text: '',
+            charCount: 0,
 
             social: [],
             content: [],
 
             posting_date: null,
-            id: null,
 
-            isLoaded:false, 
+            isLoaded: false, 
             
             showShortenMessage: false,
             showNoMessage: false,
 
             edit: false,
-            chosenIndex: 0
+
+            chosenIndex: 0, 
+            editIndex: 0
         }
         this.handleTextChange = this.handleTextChange.bind(this);
         this.toggleEdit = this.toggleEdit.bind(this);
@@ -80,18 +82,18 @@ class postCard extends Component {
 
     componentDidMount(){
         const { id, text, socials, contents, posting_date } = this.props.entry;
-        const { chosenIndex } = this.props.chosenIndex
+        const { chosenIndex, editIndex } = this.props
         this.setState({
+            id: id, 
+            text: text, 
             charCount: text.length,
-            text: text,
             social: socials,
             content: contents,
             posting_date: posting_date,
-            id: id,
             isLoaded: true, 
             edit: false, 
-            chosenIndex: chosenIndex
-
+            chosenIndex: chosenIndex,
+            editIndex: editIndex
         })
     }
 
@@ -100,14 +102,17 @@ class postCard extends Component {
         this.setState({ text: text, charCount: text.length })
     }
 
-    toggleEdit = () => {
-        const { edit, id } = this.state
+    toggleEdit = (e) => {
+        console.log("Toggle Edit")
+        e.stopPropagation()
+        const { edit, id, editIndex} = this.state
         const newEdit = !edit
-        this.setState({ edit: newEdit, text: 'try' })
-
-        this.props.handleToggleIndex(id)
-        this.props.editInProgress(true)
-
+        if(editIndex === 0){
+            this.setState({ edit: newEdit })
+            this.props.handleToggleEditIndex(id)
+        }
+        // this.props.handleToggleIndex(id)
+        
     }
 
     editPost() {
@@ -122,8 +127,8 @@ class postCard extends Component {
                 text: text, 
                 posting_date:firebase.database.ServerValue.TIMESTAMP,
             })
-            this.props.editInProgress(false)
-            this.props.handleToggleIndex(id)
+            this.props.handleToggleEditIndex(id)
+            // this.props.handleToggleIndex(id)
         //     axios({
         //         method: 'PUT',
         //         url: `/api/posts/editPost`,
@@ -146,36 +151,20 @@ class postCard extends Component {
     }
 
     choosePost(){
-        const { edit, id, chosenIndex } = this.state
+        const { id } = this.state    
         this.props.handleToggleIndex(id)
-        // if(!edit) {
-        //     this.setState({ chosenIndex: id })
-        // }
-
-        // console.log(edit)
-        // // clicking itself again 
-        // if (edit === false){
-            if (id === chosenIndex) {
-                this.props.handleToggleIndex(0)
-                // this.setState({ chosenIndex: 0})
-            }
-            // clicking another post
-            else{
-                this.props.handleToggleIndex(id)
-                // this.setState({ chosenIndex: id })
-            }
-        // }   
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        return (nextProps.chosenIndex !== prevState.chosenIndex)
-            ? {chosenIndex: nextProps.chosenIndex}
+        return (nextProps.chosenIndex !== prevState.chosenIndex || nextProps.editIndex !== prevState.editIndex)
+            ? {chosenIndex: nextProps.chosenIndex, editIndex: nextProps.editIndex}
             : null
     }
 
 
     render() {
         const { text, social, content, posting_date, charCount, edit, id, chosenIndex } = this.state
+        // choosePost is true when the chosenIndex is equal to the postCard's id
         const choosePost = (chosenIndex === id)
         const { classes } = this.props;
 
@@ -192,7 +181,12 @@ class postCard extends Component {
             >
                 <Grid item xs={12} sm={12} md={12} lg={11} >
                             <p> {id}</p>
-                            <Paper elevation={0} className="Add-Paper" onClick={this.choosePost} style={{ cursor: !edit ? 'pointer' : 'auto', backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
+                    <Paper  elevation={0} 
+                            className="Add-Paper" 
+                            onClick={this.choosePost} 
+                            style={{ 
+                                cursor: !edit ? 'pointer' : 'auto', 
+                                backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
                         <div style={{ padding: '10px' }}>
                             <Grid container>
                                 <Grid item xs = {11}>
@@ -208,9 +202,9 @@ class postCard extends Component {
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
-                                        {!edit ? 
-                                            <EditIcon className={classes.iconButton}  onClick={this.toggleEdit} />
-                                            : null}
+                                        {edit 
+                                            ? null 
+                                            : <EditIcon className={classes.iconButton}  onClick={this.toggleEdit} />}
                                 </Grid>
                             </Grid>
                             

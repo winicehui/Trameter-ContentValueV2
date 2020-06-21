@@ -21,7 +21,7 @@ class Left extends Component {
             dataLoaded: false, 
 
             chosenIndex: 0, 
-            edit_inprogress: false
+            editIndex: 0
         }
         this.handleOpen = this.handleOpen.bind(this);
     }
@@ -32,24 +32,26 @@ class Left extends Component {
         this.setState({ isOpen: newActive })
     }
 
-    editInProgress = (bool) => {
-        this.setState({ edit_inprogress: bool})
+    // Called when the Edit or Save Button is clicked
+    // Toggles state varaibles : 0 when not editing, numeric when editing (with id of postCard being editted)
+    handleToggleEditIndex = (index) => {
+        const { editIndex } = this.state 
+        if (editIndex === 0)
+            this.setState({ editIndex: index, chosenIndex: index})
+        else if (editIndex === index)
+            this.setState({ editIndex: 0, chosenIndex: index })
     }
 
+    // Called when a postCard is selected 
+    // Will only toggle to another postCardwhen another one is not being editted currently
     handleToggleIndex = (index) => {
-        const { edit_inprogress } = this.state 
-        if (!edit_inprogress){
-            this.setState({chosenIndex: index})
+        const { editIndex, chosenIndex } = this.state 
+        if (editIndex === 0){
+            if (index === chosenIndex) {
+                this.setState({ chosenIndex: 0 })
+            } else
+                this.setState({ chosenIndex: index })
         }
-
-        // // clicking itself again 
-        // if (index === chosenIndex) {
-        //     this.setState({ chosenIndex: 0 })
-        // }
-        // // clicking another post
-        // else if (chosenIndex !== 0 ){
-        //     this.setState({ chosenIndex: index })
-        // }
     }
 
     componentDidMount() {
@@ -110,6 +112,7 @@ class Left extends Component {
 
     render() {
         const { classes } = this.props;
+        console.log(this.state.chosenIndex)
         return (    
             this.state.dataLoaded ?
                 <Container>
@@ -145,8 +148,9 @@ class Left extends Component {
                                         </InputAdornment>
                                     ),
                                 }}
-                                />
+                            />
                             </Grid>
+
                         <Grid item xs={12} sm={12} md={7} lg={1} />
                     </Grid>
 
@@ -157,12 +161,15 @@ class Left extends Component {
                     }
 
                     {this.state.data.map((element, i) => (
-                        <PostCard entry={element} key={element.id} 
-                        chosenIndex={this.state.chosenIndex} 
-                        handleToggleIndex={this.handleToggleIndex} 
-                        editInProgress={this.editInProgress} />                        
+                        <PostCard 
+                            key={element.id} 
+                            entry={element} 
+                            chosenIndex={this.state.chosenIndex} 
+                            editIndex={this.state.editIndex}
+                            handleToggleIndex={this.handleToggleIndex} 
+                            handleToggleEditIndex={this.handleToggleEditIndex} 
+                        />                        
                     ))}
-
                 </Container>
             : null
         );
