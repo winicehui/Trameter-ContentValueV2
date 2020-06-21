@@ -33,7 +33,7 @@ class Add extends Component {
 
             social: [],
             content: [],
-            showShortenMessage: false, 
+            // showShortenMessage: false, 
             showNoMessage: false
         }
         this.handleTextChange = this.handleTextChange.bind(this);
@@ -72,9 +72,10 @@ class Add extends Component {
     addPost() {
         const { charCount } = this.state
         if ( charCount === 0){
-            this.setState({ showNoMessage: true, showShortenMessage: false })
-        } else if ( charCount > 140) {
-            this.setState({ showShortenMessage: true, showNoMessage: false})
+            this.setState({ showNoMessage: true })
+            // this.setState({ showNoMessage: true, showShortenMessage: false })
+        // } else if ( charCount > 140) {
+        //     this.setState({ showShortenMessage: true, showNoMessage: false})
         } else {
             const { text, social, content } = this.state
             const postsRef = firebase.database().ref('posts')
@@ -125,7 +126,7 @@ class Add extends Component {
 
                     social: [],
                     content: [],
-                    showShortenMessage: false,
+                    // showShortenMessage: false,
                     showNoMessage: false
                 })
             // })
@@ -152,9 +153,10 @@ class Add extends Component {
                                 value = {this.state.text}
                                 InputProps={{ disableUnderline: true }}
                                 onChange = {this.handleTextChange}
+                                inputProps={{ maxLength: 140 }}
                             />
                             <div> 
-                                {this.state.showShortenMessage ? <p className = "Shorten-Message"> Please shorten post to save. </p> : null }
+                                {/* {this.state.showShortenMessage ? <p className = "Shorten-Message"> Please shorten post to save. </p> : null } */}
                                 {this.state.showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
                                 <p className = "Word-Count" style = {{color: (this.state.charCount >140 || this.state.showNoMessage) ? 'red' : 'black'}}>{this.state.charCount} /140 </p>
                             </div>

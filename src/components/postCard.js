@@ -66,7 +66,7 @@ class postCard extends Component {
 
             isLoaded: false, 
             
-            showShortenMessage: false,
+            // showShortenMessage: false,
             showNoMessage: false,
 
             edit: false,
@@ -115,9 +115,10 @@ class postCard extends Component {
     editPost() {
         const { charCount } = this.state
         if (charCount === 0) {
-            this.setState({ showNoMessage: true, showShortenMessage: false })
-        } else if (charCount > 140) {
-            this.setState({ showShortenMessage: true, showNoMessage: false })
+            this.setState({ showNoMessage: true })
+            // this.setState({ showNoMessage: true, showShortenMessage: false })
+        // } else if (charCount > 140) {
+        //     this.setState({ showShortenMessage: true, showNoMessage: false })
         } else {
             const { id, text } = this.state
             firebase.database().ref('posts/'+ id).update({
@@ -138,7 +139,7 @@ class postCard extends Component {
                     this.setState({
                         edit: false, 
                         showNoMessage: false,
-                        showShortenMessage: false
+                        // showShortenMessage: false
                     })
         //         })
         //         .catch(err =>
@@ -192,9 +193,13 @@ class postCard extends Component {
                                         rows={3} 
                                         rowsMax={6}
                                         value={text}
-                                        InputProps={{ disableUnderline: true, classes: { disabled: !edit ? classes.canChoose_disabled : classes.cantChoose_disabled } }}
+                                        InputProps={{ 
+                                            disableUnderline: true, 
+                                            classes: { disabled: !edit ? classes.canChoose_disabled : classes.cantChoose_disabled }
+                                        }}
                                         onChange={this.handleTextChange}
                                         disabled = {!edit}
+                                        inputProps = {{ maxLength: 140}}
                                     />
                                 </Grid>
                                 <Grid item xs={1}>
@@ -204,7 +209,7 @@ class postCard extends Component {
                                 </Grid>
                             </Grid>
                             
-                                {this.state.showShortenMessage ? <p className="Shorten-Message"> Please shorten post to save. </p> : null}
+                                {/* {this.state.showShortenMessage ? <p className="Shorten-Message"> Please shorten post to save. </p> : null} */}
                                 {this.state.showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
                             <div className = "Display-Message">
                                 <p className = "Word-Count"> Last Updated: {posting_date.substring(0,10)} </p>
