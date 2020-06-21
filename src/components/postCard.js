@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { Grid, TextField, Paper, Chip, Button, Fade } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import socialList from '../static/social_list'
 import contentList from '../static/content'
@@ -78,6 +79,7 @@ class postCard extends Component {
         this.toggleEdit = this.toggleEdit.bind(this);
         this.editPost = this.editPost.bind(this);
         this.choosePost = this.choosePost.bind(this);
+        this.deletePost = this.deletePost.bind(this);
     }
 
     componentDidMount(){
@@ -148,9 +150,31 @@ class postCard extends Component {
         }
     }
 
+    deletePost(){
+        const { id } = this.state
+        firebase.database().ref('posts/' + id).remove()
+        const contentsRef = firebase.database().ref('/content');
+        contentsRef.once('value', (snapshot) => {
+            let categories = snapshot.val();
+            for (let category in categories) {
+                for (let id_index in categories[category]['C']) {
+                    if (id_index === id){
+                        firebase.database().ref('content/' + category + '/C/' + id).remove()
+                    }
+                }
+                for (let id_index in categories[category]['J']) {
+                    if (id_index === id) {
+                        firebase.database().ref('content/' + category + '/J/' + id).remove()
+                    }
+                }
+            }
+        })
+        this.props.handleToggleEditIndex(0)
+    }
+
     choosePost(){
         const { id } = this.state    
-        this.props.handleToggleIndex(id)
+        this.props.handleToggleIndex(id)    
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -204,7 +228,7 @@ class postCard extends Component {
                                 </Grid>
                                 <Grid item xs={1}>
                                         {edit 
-                                            ? null 
+                                            ? <DeleteIcon className={classes.iconButton} onClick = {this.deletePost} /> 
                                             : <EditIcon className={classes.iconButton}  onClick={this.toggleEdit} />}
                                 </Grid>
                             </Grid>

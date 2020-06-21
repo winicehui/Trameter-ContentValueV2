@@ -18,8 +18,8 @@ class Header extends Component {
     }
 
     componentDidMount(){
-        const postsRef = firebase.database().ref('/content');
-        postsRef.on('value', (snapshot) => {
+        const contentsRef = firebase.database().ref('/content');
+        contentsRef.on('value', (snapshot) => {
             let categories_C = snapshot.val();
             let C_list = {};
             let J_list = {}

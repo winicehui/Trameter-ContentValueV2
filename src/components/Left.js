@@ -32,14 +32,20 @@ class Left extends Component {
         this.setState({ isOpen: newActive })
     }
 
-    // Called when the Edit or Save Button is clicked
+    // Called when the Edit, Delete or Save Button is clicked
     // Toggles state varaibles : 0 when not editing, numeric when editing (with id of postCard being editted)
     handleToggleEditIndex = (index) => {
         const { editIndex } = this.state 
-        if (editIndex === 0){
+        // Case 1: Delete Button
+        if (index === 0){
+            this.setState({ editIndex: 0, chosenIndex: 0 })
+            this.props.handleToggleIndex(0)
+        }  // Case 2: Edit Button
+        else if (editIndex === 0){
             this.setState({ editIndex: index, chosenIndex: index})
             this.props.handleToggleIndex(index)
-        } else if (editIndex === index){
+        } // Case 3: Save Button 
+        else if (editIndex === index){
             this.setState({ editIndex: 0, chosenIndex: index })
             this.props.handleToggleIndex(index)
         }
@@ -118,6 +124,7 @@ class Left extends Component {
 
     render() {
         const { classes, chosenIndex } = this.props;
+        console.log(chosenIndex)
         console.log(this.state.chosenIndex)
         return (    
             this.state.dataLoaded ?
