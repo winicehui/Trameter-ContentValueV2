@@ -7,7 +7,6 @@ import socialList from '../static/social_list'
 import contentList from '../static/content'
 
 import firebase from '../firebase'
-import * as fb from 'firebase';
 
 const styles = {
     button: {

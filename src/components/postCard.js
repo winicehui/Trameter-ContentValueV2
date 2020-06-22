@@ -150,7 +150,8 @@ class postCard extends Component {
         }
     }
 
-    deletePost(){
+    deletePost = (e) => {
+        e.stopPropagation()
         const { id } = this.state
         firebase.database().ref('posts/' + id).remove()
         const contentsRef = firebase.database().ref('/content');
@@ -201,7 +202,6 @@ class postCard extends Component {
                 spacing = {1}
             >
                 <Grid item xs={12} sm={12} md={12} lg={11} >
-                            <p> {id}</p>
                     <Paper  elevation={2} 
                             className="Add-Paper" 
                             onClick={this.choosePost} 

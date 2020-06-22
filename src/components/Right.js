@@ -20,16 +20,12 @@ class Right extends Component {
         const postsRef = firebase.database().ref('/content');
         postsRef.on('value', (snapshot) => {
             let categories = snapshot.val();
-            console.log(categories)
             let J_count = {}
             for (let category in categories) {
                 J_count[category] = 0 
                 for (let id_index in categories[category]['J']) {
                     if (id_index === id) {
                         J_count[category]  = categories[category]['J'][id]
-                        console.log(id)
-                        console.log(category)
-                        console.log(categories[category]['J'][id])
                     }
                 }
             }
@@ -59,7 +55,6 @@ class Right extends Component {
 
     render() {
         const { id, J_count } = this.state
-        console.log(J_count)
         return (
             this.state.isLoaded ? 
             <Container >
