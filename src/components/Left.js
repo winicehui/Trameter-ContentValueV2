@@ -52,6 +52,7 @@ class Left extends Component {
             this.props.handleToggleIndex(index)
         } // Case 3: Save Button 
         else if (editIndex === index){
+            console.log(index)
             this.setState({ editIndex: 0, chosenIndex: index })
             this.props.handleToggleIndex(index)
         }
@@ -222,6 +223,7 @@ class Left extends Component {
 
     render() {
         const { classes, chosenIndex } = this.props;
+        console.log(this.state.chosenIndex)
         return (    
             this.state.dataLoaded ?
                 <Container>
