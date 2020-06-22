@@ -18,7 +18,10 @@ class Add extends Component {
 
             social: [],
             content: [],
-            showNoMessage: false
+
+            showNoMessage: false, 
+            showNoSocial:false, 
+            showNoContent: false
         }
         this.handleTextChange = this.handleTextChange.bind(this);
         this.toggleSocial = this.toggleSocial.bind(this);
@@ -43,7 +46,7 @@ class Add extends Component {
     }
 
     toggleContent = (content) => {
-        const curr_contents = this.state.social
+        const curr_contents = this.state.content
         const index = curr_contents.indexOf(content.content)
         if (index >= 0){
             curr_contents.splice(index, 1)
@@ -55,8 +58,8 @@ class Add extends Component {
 
     addPost() {
         const { charCount, text, social, content } = this.state
-        if ( charCount === 0){
-            this.setState({ showNoMessage: true })
+        if (charCount === 0 || social.length === 0 || content.length === 0){
+            this.setState({ showNoMessage: charCount === 0, showNoSocial: social.length === 0, showNoContent: content.length === 0 })
         } else {
             const postsRef = firebase.database().ref('posts')
             const post = {
@@ -78,14 +81,16 @@ class Add extends Component {
                 social: [],
                 content: [],
 
-                showNoMessage: false
+                showNoMessage: false, 
+                showNoSocial: false, 
+                snowNoContent: false
             }) 
         } 
     }
 
     render() {
         const { classes } = this.props;
-        const { charCount, text, social, content, showNoMessage } = this.state
+        const { charCount, text, social, content, showNoMessage, showNoSocial, showNoContent } = this.state
         return (
             <Grid
                 container
@@ -105,6 +110,8 @@ class Add extends Component {
                             />
                             <div> 
                                 { showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
+                                { showNoContent ? <p className="Shorten-Message"> You must choose at least 1 content to save. </p> : null}
+                                { showNoSocial ? <p className="Shorten-Message"> You must choose at least 1 social to save. </p> : null}
                                 <p className = "Word-Count" style = {{color: showNoMessage ? 'red' : 'black'}}>{charCount} /140 </p>
                             </div>
                         </div>

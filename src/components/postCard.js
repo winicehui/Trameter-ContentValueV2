@@ -27,6 +27,8 @@ class postCard extends Component {
             isLoaded: false, 
             
             showNoMessage: false,
+            showNoSocial: false,
+            showNoContent: false,
 
             edit: false,
 
@@ -73,11 +75,10 @@ class postCard extends Component {
     }
 
     editPost() {
-        const { charCount } = this.state
-        if (charCount === 0) {
-            this.setState({ showNoMessage: true })
+        const { charCount, text, id, social, content } = this.state
+        if (charCount === 0 || social.length === 0 || content.length === 0) {
+            this.setState({ showNoMessage: charCount===0, showNoSocial: social.length === 0, showNoContent: content.length === 0 })
         } else {
-            const { id, text } = this.state
             firebase.database().ref('posts/'+ id).update({
                 text: text, 
                 posting_date:firebase.database.ServerValue.TIMESTAMP,
@@ -87,6 +88,8 @@ class postCard extends Component {
             this.setState({
                 edit: false, 
                 showNoMessage: false,
+                showNoSocial: false,
+                showNoContent: false
             })
         }
     }
@@ -126,7 +129,7 @@ class postCard extends Component {
     }
 
     render() {
-        const { text, social, content, posting_date, charCount, edit, id, chosenIndex, showNoMessage } = this.state
+        const { text, social, content, posting_date, charCount, edit, id, chosenIndex, showNoMessage, showNoContent, showNoSocial } = this.state
         // choosePost is true when the chosenIndex is equal to the postCard's id
         const choosePost = (chosenIndex === id)
         const { classes } = this.props;
@@ -176,6 +179,8 @@ class postCard extends Component {
                                 </Grid>
                                 
                                 {showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
+                                {showNoContent ? <p className="Shorten-Message"> You must choose at least 1 content to save. </p> : null}
+                                {showNoSocial ? <p className="Shorten-Message"> You must choose at least 1 social to save. </p> : null}
                                 <div className = "Display-Message">
                                     <p className = "Word-Count"> Last Updated: {posting_date} </p>
                                     <p className="Word-Count" style={{ color: showNoMessage ? 'red' : 'black' }}>{charCount} /140 </p>
