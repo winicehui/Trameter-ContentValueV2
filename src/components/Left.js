@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Button, TextField, Container } from '@material-ui/core';
+import { withRouter } from 'react-router-dom'
 
 import Add from './Add'
 import PostCard from './postCard'
@@ -67,6 +68,8 @@ class Left extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props.location.pathname)
+
         const postsRef = firebase.database().ref('/posts').orderByChild('posting_date');
         postsRef.on('value', (snapshot) => {
             let posts = snapshot.val();
@@ -124,8 +127,6 @@ class Left extends Component {
 
     render() {
         const { classes, chosenIndex } = this.props;
-        console.log(chosenIndex)
-        console.log(this.state.chosenIndex)
         return (    
             this.state.dataLoaded ?
                 <Container>
@@ -189,4 +190,4 @@ class Left extends Component {
     }
 }
 
-export default withStyles(styles)(Left);
+export default withRouter(withStyles(styles)(Left));

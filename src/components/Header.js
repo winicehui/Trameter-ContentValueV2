@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Container, Grid } from '@material-ui/core';
+import { withRouter } from "react-router";
 
 import ContentCard from './contentCard'
 import contentValues from '../static/content'
@@ -13,11 +14,14 @@ class Header extends Component {
         this.state = {
             C_list: [], 
             J_list: [],
+            pathname: '', 
             isLoaded: false
         }
     }
-
-    componentDidMount(){
+    
+    update(){
+        const pathname = this.props.location.pathname.substring(1)
+        console.log(pathname)
         const contentsRef = firebase.database().ref('/content');
         contentsRef.on('value', (snapshot) => {
             let categories_C = snapshot.val();
@@ -28,16 +32,16 @@ class Header extends Component {
             for (let category in categories_C) {
                 var count = 0
                 var sum = 0
-                for (let id in categories_C[category]['C']){
+                for (let id in categories_C[category]['C']) {
                     count = count + 1
                 }
-                for (let id in categories_C[category]['J']){
-                    sum = sum + categories_C[category]['J'][id]    
+                for (let id in categories_C[category]['J']) {
+                    sum = sum + categories_C[category]['J'][id]
                 }
-                
+
                 C_list[category] = count
                 J_list[category] = sum
-                all_C = all_C + count 
+                all_C = all_C + count
                 all_J = all_J + sum
             }
 
@@ -46,9 +50,15 @@ class Header extends Component {
 
             this.setState({
                 C_list: C_list,
-                J_list: J_list
+                J_list: J_list,
+                pathname: pathname, 
+                isLoaded: true
             })
         })
+    }
+
+    componentDidMount(){
+        this.update()
         // axios.all([
         //     axios({
         //         method: 'GET',
@@ -70,12 +80,25 @@ class Header extends Component {
         //     console.log(err)
         // );
     }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return (nextProps.location.pathname.substring(1) !== prevState.pathname)
+            ? { pathname: nextProps.location.pathname.substring(1), isLoaded: false }
+            : null
+    }
     
+    componentDidUpdate(nextProps) {
+        if (this.state.isLoaded === false) {
+            this.update()
+        }
+    }
+
     render() {
-        const { C_list, J_list } = this.state
+        const { C_list, J_list, pathname } = this.state
+        console.log(C_list)
 
         return (
-            // this.state.isLoaded ?
+            this.state.isLoaded ?
             <Container>
                 <h1 className = "Title"> Content Value </h1>
                 <Grid 
@@ -84,14 +107,18 @@ class Header extends Component {
                     >
                     {contentValues.map((element, i) =>
                         (<Grid item xs={4} sm={3} md={2} lg = {2} key = {i}>
-                            <ContentCard content={element} C={C_list[element.content] || 0 } J={J_list[element.content] || 0}/>
+                            <ContentCard 
+                                content={element} 
+                                C={C_list[element.content] || 0 } 
+                                J={J_list[element.content] || 0} 
+                                pathname = {pathname}/>
                         </Grid>)
                     )}
                 </Grid>
             </Container>
-            // : null
+            : null
         ) 
     }
 }
 
-export default Header;
+export default withRouter(Header);

@@ -31,7 +31,6 @@ class jobCard extends Component {
 
     increment(){
         const { content, id, J } = this.state
-        console.log(this.state)
         firebase.database().ref('/content/'+ content + '/J/' + id).set(
             firebase.database.ServerValue.increment(1)
         );
