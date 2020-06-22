@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Grid, Container } from '@material-ui/core';
+import { Paper, Grid } from '@material-ui/core';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import firebase from '../firebase'
@@ -61,13 +61,13 @@ class jobCard extends Component {
                     alignItems='center'
                     justify='center'
                 >
-                    <Grid item xs={3} className="ContentCard-BorderSplit" style = {{ height: '25px' }}>
+                    <Grid item xs={3} className="ContentCard-BorderSplit" style = {{ height: '27px' }}>
                         <RemoveIcon style = {{float: 'center', cursor: 'pointer'}} onClick = {this.decrement} />
                     </Grid>
-                    <Grid item xs={6} className="ContentCard-BorderSplit" style={{ height: '25px', backgroundColor: '#353B51', color: '#FFFFFF', }}>
+                    <Grid item xs={6} className="ContentCard-BorderSplit" style={{ height: '27px', backgroundColor: '#353B51', color: '#FFFFFF', }}>
                         <p style={{ margin: '4px', textAlign: 'center', verticalAlign: 'center'}}>{J}</p>
                     </Grid>
-                    <Grid item xs={3} style={{ height: '25px' }}>
+                    <Grid item xs={3} style={{ height: '27px' }}>
                         <AddIcon style={{ float: 'center', cursor: 'pointer' }} onClick = {this.increment} />
                     </Grid>
                 </Grid>

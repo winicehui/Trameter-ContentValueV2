@@ -8,12 +8,6 @@ import './App.css'
 class App extends Component {
   render() {
     return (
-      // <div style = {{display: 'flex', flexDirection: 'column' }}>
-      //   <Header/>
-      //   <Divider style={{ backgroundColor: '#707070', height: '3px', marginTop: '20px'}}/>
-      //   <Body style = {{flex: '1'}}/>
-      // </div>
-
       <div >
         <Header />
         <Divider style={{ backgroundColor: '#707070', height: '3px', marginTop: '20px' }} />

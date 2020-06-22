@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import { Grid, Button, TextField, Container } from '@material-ui/core';
 import { withRouter } from 'react-router-dom'
+
+import { Grid, Button, TextField, Container } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment'
+import SearchIcon from '@material-ui/icons/Search';
+import { withStyles } from "@material-ui/core/styles";
 
 import Add from './Add'
 import PostCard from './postCard'
 
-import { withStyles } from "@material-ui/core/styles";
 import styles from '../static/FormStyles'
-
-import InputAdornment from '@material-ui/core/InputAdornment'
-import SearchIcon from '@material-ui/icons/Search';
 
 import firebase from '../firebase'
 
@@ -41,6 +41,8 @@ class Left extends Component {
     // Called when the Edit, Delete or Save Button is clicked
     // Toggles state varaibles : 0 when not editing, numeric when editing (with id of postCard being editted)
     handleToggleEditIndex = (index) => {
+        console.log("handleToggleEditIndex")
+        console.log(index)
         const { editIndex } = this.state 
         // Case 1: Delete Button
         if (index === 0){
@@ -61,6 +63,8 @@ class Left extends Component {
     // Called when a postCard is selected 
     // Will only toggle to another postCardwhen another one is not being editted currently
     handleToggleIndex = (index) => {
+        console.log("handleToggleIndex")
+        console.log(index)
         const { editIndex, chosenIndex } = this.state 
         if (editIndex === 0){
             if (index === chosenIndex) {
@@ -170,7 +174,6 @@ class Left extends Component {
         //     })
         // }
     }
-    
 
     componentDidMount() {
         this.update()
@@ -188,26 +191,6 @@ class Left extends Component {
         }
     }
 
-    // update() {
-    //     axios({
-    //         method: 'GET',
-    //         url: `/api/posts/all`,
-    //     })
-    //         .then(result => {
-    //             this.setState({
-    //                 data: result.data.data,
-    //                 dataLoaded: true
-    //             })
-    //         })
-    //         .catch(err =>
-    //             console.log(err)
-    //         );
-    // }
-
-    // addNewEntry= (bool) => {
-    //     if (bool) this.update()
-    // }
-
     handleSearch = (e) => {
         const search_text = e.target.value
         console.log(search_text)
@@ -222,8 +205,7 @@ class Left extends Component {
     }
 
     render() {
-        const { classes, chosenIndex } = this.props;
-        console.log(this.state.chosenIndex)
+        const { classes } = this.props;
         return (    
             this.state.dataLoaded ?
                 <Container>
@@ -267,13 +249,11 @@ class Left extends Component {
                         <Grid item xs={12} sm={12} md={7} lg={1} />
                     </Grid>
 
-                    {this.state.isOpen 
-                        // ? <Add addNewEntry = {this.addNewEntry} />
+                    { this.state.isOpen 
                         ? <Add />
-                        : null
-                    }
+                        : null}
 
-                    {this.state.searched_data.map((element, i) => (
+                    { this.state.searched_data.map((element, i) => (
                         <PostCard 
                             key={element.id} 
                             entry={element} 

@@ -36,6 +36,7 @@ class Right extends Component {
             })
         })
     }
+
     componentDidMount() {
         const { id } = this.props
         this.update(id)
@@ -59,7 +60,6 @@ class Right extends Component {
             this.state.isLoaded ? 
             <Container >
                 <h1 className="Title"> Job Done </h1>
-                {/* <p> {this.state.id}</p> */}
                 <Grid
                     container
                     alignItems='center'

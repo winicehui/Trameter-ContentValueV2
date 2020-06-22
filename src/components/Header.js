@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios'
 import { Container, Grid } from '@material-ui/core';
 import { withRouter } from "react-router";
 
@@ -59,26 +58,6 @@ class Header extends Component {
 
     componentDidMount(){
         this.update()
-        // axios.all([
-        //     axios({
-        //         method: 'GET',
-        //         url: `/api/contents/allC`,
-        //     }), 
-        //     axios({
-        //         method: 'GET',
-        //         url:`/api/contents/allJ`
-        //     })
-        // ])
-        // .then(axios.spread( (C_response, J_response) =>{
-        //     this.setState({
-        //         C_list: C_response.data.data, 
-        //         J_list: J_response.data.data,
-        //         isLoaded: true
-        //     })
-        // }))
-        // .catch(err =>
-        //     console.log(err)
-        // );
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -108,8 +87,8 @@ class Header extends Component {
                         (<Grid item xs={4} sm={3} md={2} lg = {2} key = {i}>
                             <ContentCard 
                                 content={element} 
-                                C={C_list[element.content] || 0 } 
-                                J={J_list[element.content] || 0} 
+                                C={ C_list[element.content] || 0 } 
+                                J={ J_list[element.content] || 0 } 
                                 pathname = {pathname}/>
                         </Grid>)
                     )}

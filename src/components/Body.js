@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Divider } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
+
 import Left from './Left'
 import Right from './Right'
 
@@ -12,6 +13,7 @@ class Body extends Component {
     }
 
     handleToggleIndex = (index) => {
+        console.log("Body handleToggleIndex")
         console.log(index)
             this.setState({ chosenIndex: index })
     }
@@ -28,13 +30,13 @@ class Body extends Component {
                             margin: '0px', 
                             padding: '0px', 
                             overflowY: 'scroll'}}>
-                    <Left handleToggleIndex={this.handleToggleIndex}/>
+                        <Left handleToggleIndex={this.handleToggleIndex}/>
                     </Grid>
                     {/* <Divider orientation="vertical" flexItem /> */}
                     <Grid item xs={12} sm={6} style={{ borderLeft: '3px solid #707070'}}>
-                        {this.state.chosenIndex !== 0 
+                        { this.state.chosenIndex !== 0 
                             ? <Right id = {this.state.chosenIndex} /> 
-                            : null}
+                            : null }
                     </Grid>
                 </Grid>
         );

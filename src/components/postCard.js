@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
 
 import { Grid, TextField, Paper, Chip, Button, Fade } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
@@ -67,7 +66,6 @@ class postCard extends Component {
 
             isLoaded: false, 
             
-            // showShortenMessage: false,
             showNoMessage: false,
 
             edit: false,
@@ -105,6 +103,8 @@ class postCard extends Component {
     }
 
     toggleEdit = (e) => {
+        console.log("toggleEdit")
+        console.log(this.state.id)
         e.stopPropagation()
         const { edit, id, editIndex} = this.state
         const newEdit = !edit
@@ -115,42 +115,29 @@ class postCard extends Component {
     }
 
     editPost() {
+        console.log("editPost")
         const { charCount } = this.state
         if (charCount === 0) {
             this.setState({ showNoMessage: true })
-            // this.setState({ showNoMessage: true, showShortenMessage: false })
-        // } else if (charCount > 140) {
-        //     this.setState({ showShortenMessage: true, showNoMessage: false })
         } else {
             const { id, text } = this.state
             firebase.database().ref('posts/'+ id).update({
                 text: text, 
                 posting_date:firebase.database.ServerValue.TIMESTAMP,
             })
-            this.props.handleToggleEditIndex(id)
-            // this.props.handleToggleIndex(id)
-        //     axios({
-        //         method: 'PUT',
-        //         url: `/api/posts/editPost`,
-        //         data: {
-        //             id: id,
-        //             text: text
-        //         }
-        //     })
-        //         .then((response) => {
-                    this.setState({
-                        edit: false, 
-                        showNoMessage: false,
-                        // showShortenMessage: false
-                    })
-        //         })
-        //         .catch(err =>
-        //             console.log(err)
-        //         );
+            console.log(id)
+            // this.props.handleToggleEditIndex(id)
+
+            this.setState({
+                edit: false, 
+                showNoMessage: false,
+            })
         }
     }
 
     deletePost = (e) => {
+        console.log("deletePost")
+        console.log(this.state.id)
         e.stopPropagation()
         const { id } = this.state
         firebase.database().ref('posts/' + id).remove()
@@ -174,6 +161,8 @@ class postCard extends Component {
     }
 
     choosePost(){
+        console.log("choosePost")
+        console.log(this.state.id)
         const { id } = this.state    
         this.props.handleToggleIndex(id)    
     }
@@ -190,131 +179,131 @@ class postCard extends Component {
         const choosePost = (chosenIndex === id)
         const { classes } = this.props;
 
-        if (this.state.isLoaded) return (
-            <React.Fragment>
-            <Fade in = {this.state.isLoaded}> 
-            
-            <Grid
-                container
-                alignItems='center'
-                justify='center'
-                style={{ marginTop: '30px', marginBottom: '30px' }}
-                spacing = {1}
-            >
-                <Grid item xs={12} sm={12} md={12} lg={11} >
-                    <Paper  elevation={2} 
-                            className="Add-Paper" 
-                            onClick={this.choosePost} 
-                            style={{ 
-                                cursor: !edit ? 'pointer' : 'auto', 
-                                backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
-                        <div style={{ padding: '10px' }}>
-                            <Grid container>
-                                <Grid item xs = {11}>
-                                    <TextField 
-                                        fullWidth 
-                                        multiline 
-                                        rows={3} 
-                                        rowsMax={6}
-                                        value={text}
-                                        InputProps={{ 
-                                            disableUnderline: true, 
-                                            classes: { disabled: !edit ? classes.canChoose_disabled : classes.cantChoose_disabled }
-                                        }}
-                                        onChange={this.handleTextChange}
-                                        disabled = {!edit}
-                                        inputProps = {{ maxLength: 140}}
-                                    />
+        return (
+            this.state.isLoaded ?
+                <React.Fragment>
+                <Fade in = {this.state.isLoaded}> 
+                
+                <Grid
+                    container
+                    alignItems='center'
+                    justify='center'
+                    style={{ marginTop: '30px', marginBottom: '30px' }}
+                    spacing = {1}
+                >
+                    <Grid item xs={12} sm={12} md={12} lg={11} >
+                        <Paper  elevation={2} 
+                                className="Add-Paper" 
+                                onClick={this.choosePost} 
+                                style={{ 
+                                    cursor: !edit ? 'pointer' : 'auto', 
+                                    backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
+                            <div style={{ padding: '10px' }}>
+                                <Grid container>
+                                    <Grid item xs = {11}>
+                                        <TextField 
+                                            fullWidth 
+                                            multiline 
+                                            rows={3} 
+                                            rowsMax={6}
+                                            value={text}
+                                            InputProps={{ 
+                                                disableUnderline: true, 
+                                                classes: { disabled: !edit ? classes.canChoose_disabled : classes.cantChoose_disabled }
+                                            }}
+                                            onChange={this.handleTextChange}
+                                            disabled = {!edit}
+                                            inputProps = {{ maxLength: 140}}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={1}>
+                                            {edit 
+                                                ? <DeleteIcon className={classes.iconButton} onClick = {this.deletePost} /> 
+                                                : <EditIcon className={classes.iconButton}  onClick={this.toggleEdit} />}
+                                    </Grid>
                                 </Grid>
-                                <Grid item xs={1}>
-                                        {edit 
-                                            ? <DeleteIcon className={classes.iconButton} onClick = {this.deletePost} /> 
-                                            : <EditIcon className={classes.iconButton}  onClick={this.toggleEdit} />}
-                                </Grid>
-                            </Grid>
-                            
-                                {/* {this.state.showShortenMessage ? <p className="Shorten-Message"> Please shorten post to save. </p> : null} */}
+                                
                                 {this.state.showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
-                            <div className = "Display-Message">
-                                <p className = "Word-Count"> Last Updated: {posting_date.substring(0,10)} </p>
-                                <p className="Word-Count" style={{ color: charCount > 140 ? 'red' : 'black' }}>{charCount} /140 </p>
+                                <div className = "Display-Message">
+                                    <p className = "Word-Count"> Last Updated: {posting_date.substring(0,10)} </p>
+                                    <p className="Word-Count" style={{ color: charCount > 140 ? 'red' : 'black' }}>{charCount} /140 </p>
+                                </div>
                             </div>
-                        </div>
 
-                        <Grid
-                            container
-                            alignItems='center'
-                            justify='center'
-                            className="Add-LeftShadedColumn"
-                        >
-                            <Grid item xs={12} sm={3} md={3} lg={2} >
-                                <p className="ContentCard-Text"> Social </p>
-                            </Grid>
-                                    <Grid item xs={12} sm={9} md={9} lg={10} className="Add-RightColumn" style={{ backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
-                                {socialList.map((element, i) =>
-                                    (
-                                        <Chip 
-                                            variant="outlined" 
-                                            size="small" 
-                                            label={element}
-                                            style={{
-                                                margin: '2.5px',
-                                                backgroundColor: social.includes(element) ? '#353B51' : '#FFFFFF',
-                                                color: social.includes(element) ? '#FFFFFF' : '#707070',
-                                                cursor: !edit ? 'pointer' : 'auto'
-                                            }} key={i} />
-                                    )
-                                )}
-                            </Grid>
-                        </Grid>
-
-                        <Grid
-                            container
-                            alignItems='center'
-                            justify='center'
-                            className="Add-LeftShadedColumn"
-                            style={{ borderRadius: '0 0 3px 3px ' }}
-                        >
-                            <Grid item xs={12} sm={3} md={3} lg={2} >
-                                <p className="ContentCard-Text"> Content </p>
-                            </Grid>
-                                    <Grid item xs={12} sm={9} md={9} lg={10} className="Add-RightColumn" style={{ borderRadius: '0 0 3px 0', backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
-                                {contentList.map((element, i) =>
-                                    (
-                                        element.content !== "All" ?
-                                            <Button 
+                            <Grid
+                                container
+                                alignItems='center'
+                                justify='center'
+                                className="Add-LeftShadedColumn"
+                            >
+                                <Grid item xs={12} sm={3} md={3} lg={2} >
+                                    <p className="ContentCard-Text"> Social </p>
+                                </Grid>
+                                        <Grid item xs={12} sm={9} md={9} lg={10} className="Add-RightColumn" style={{ backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
+                                    {socialList.map((element, i) =>
+                                        (
+                                            <Chip 
                                                 variant="outlined" 
-                                                size="small"
-                                                disabled={true}
+                                                size="small" 
+                                                label={element}
                                                 style={{
-                                                    width: '85px',
-                                                    margin: '5px', 
-                                                    textTransform: 'none', 
-                                                    fontFamily: 'Helvetica',
-                                                    backgroundColor: content.includes(element.content) ? element.color : '#FFFFFF',
-                                                    color: content.includes(element.content) ? '#FFFFFF' : '#707070'
-                                                }} 
-                                                key={i}>
-                                                {element.content}
-                                            </Button>
-                                            : null
-                                    )
-                                )}
+                                                    margin: '2.5px',
+                                                    backgroundColor: social.includes(element) ? '#353B51' : '#FFFFFF',
+                                                    color: social.includes(element) ? '#FFFFFF' : '#707070',
+                                                    cursor: !edit ? 'pointer' : 'auto'
+                                                }} key={i} />
+                                        )
+                                    )}
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </Paper>
-                </Grid>
 
-                <Grid item xs={12} sm={12} md={5} lg={1} >
-                    {edit 
-                    ? <Button variant="outlined" fullWidth className={classes.button} onClick={this.editPost}> Save </Button>
-                    : null}
+                            <Grid
+                                container
+                                alignItems='center'
+                                justify='center'
+                                className="Add-LeftShadedColumn"
+                                style={{ borderRadius: '0 0 3px 3px ' }}
+                            >
+                                <Grid item xs={12} sm={3} md={3} lg={2} >
+                                    <p className="ContentCard-Text"> Content </p>
+                                </Grid>
+                                        <Grid item xs={12} sm={9} md={9} lg={10} className="Add-RightColumn" style={{ borderRadius: '0 0 3px 0', backgroundColor: choosePost ? '#F2F3F4' : 'white' }}>
+                                    {contentList.map((element, i) =>
+                                        (
+                                            element.content !== "All" ?
+                                                <Button 
+                                                    variant="outlined" 
+                                                    size="small"
+                                                    disabled={true}
+                                                    style={{
+                                                        width: '85px',
+                                                        margin: '5px', 
+                                                        textTransform: 'none', 
+                                                        fontFamily: 'Helvetica',
+                                                        backgroundColor: content.includes(element.content) ? element.color : '#FFFFFF',
+                                                        color: content.includes(element.content) ? '#FFFFFF' : '#707070'
+                                                    }} 
+                                                    key={i}>
+                                                    {element.content}
+                                                </Button>
+                                                : null
+                                        )
+                                    )}
+                                </Grid>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+
+                    <Grid item xs={12} sm={12} md={5} lg={1} >
+                        {edit 
+                        ? <Button variant="outlined" fullWidth className={classes.button} onClick={this.editPost}> Save </Button>
+                        : null}
+                    </Grid>
                 </Grid>
-            </Grid>
-            </Fade>
-            </React.Fragment>
+                </Fade>
+                </React.Fragment>
+            : null 
         );
-        else return null
     }
 }
 

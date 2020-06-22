@@ -4,7 +4,7 @@ Developing a powerful internal tool to capture and evaluate the value people per
 ### Online
 Firebase Hosting URL:
 ```
-https://contentvalue-8195c.firebaseapp.com/
+https://contentvalue-8195c.web.app/
 ```
 
 ## Set-up
