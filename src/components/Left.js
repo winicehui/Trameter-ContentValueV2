@@ -23,9 +23,13 @@ class Left extends Component {
 
             chosenIndex: 0, 
             editIndex: 0, 
-            pathname: '/'
+            pathname: '/', 
+
+            search: '',
+            searched_data: []
         }
         this.handleOpen = this.handleOpen.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
     }
 
     handleOpen = (e, titleProps) => {
@@ -108,7 +112,9 @@ class Left extends Component {
                     dataLoaded: true, 
                     pathname: pathname,
                     chosenIndex: 0,
-                    editIndex: 0
+                    editIndex: 0, 
+                    search: '', 
+                    searched_data: newPosts.reverse()
                 })
                 this.props.handleToggleIndex(0)
             })
@@ -201,6 +207,19 @@ class Left extends Component {
     //     if (bool) this.update()
     // }
 
+    handleSearch = (e) => {
+        const search_text = e.target.value
+        console.log(search_text)
+        const { data } = this.state
+        let filtered_results = [] 
+        data.forEach( element => {
+            const element_text = element.text.toLowerCase()
+            if(element_text.indexOf(search_text) !== -1)
+                filtered_results.push(element)
+        })
+        this.setState({ search: search_text, searched_data: filtered_results })
+    }
+
     render() {
         const { classes, chosenIndex } = this.props;
         return (    
@@ -238,6 +257,8 @@ class Left extends Component {
                                         </InputAdornment>
                                     ),
                                 }}
+                                onChange={this.handleSearch}
+                                value={this.state.text}
                             />
                             </Grid>
 
@@ -250,7 +271,7 @@ class Left extends Component {
                         : null
                     }
 
-                    {this.state.data.map((element, i) => (
+                    {this.state.searched_data.map((element, i) => (
                         <PostCard 
                             key={element.id} 
                             entry={element} 
