@@ -22,7 +22,8 @@ class Left extends Component {
             dataLoaded: false, 
 
             chosenIndex: 0, 
-            editIndex: 0
+            editIndex: 0, 
+            pathname: '/'
         }
         this.handleOpen = this.handleOpen.bind(this);
     }
@@ -67,42 +68,117 @@ class Left extends Component {
         }
     }
 
-    componentDidMount() {
-        console.log(this.props.location.pathname)
-
-        const postsRef = firebase.database().ref('/posts').orderByChild('posting_date');
-        postsRef.on('value', (snapshot) => {
-            let posts = snapshot.val();
-            let newPosts = [];
-            for (let post in posts) {
-                // firebase.database().ref('social').child(post).on('value', (snapshot) => {
-                //     let socials = snapshot.val();
-                //     for (let social in socials) {
-                //         if (socials[social] === true)
-                //             socialList.push(social)
-                //     }
-                // })
-                // firebase.database().ref('content').child(post).on('value', (snapshot) => {
-                //     let contents = snapshot.val();
-                //     for (let content in contents) {
-                //         if (contents[content] === true)
-                //             contentList.push(content)
-                //     }
-                // })
-                var time = new Date(posts[post].posting_date).toDateString()
-                newPosts.push({
-                    id: post,
-                    text: posts[post].text, 
-                    posting_date: time,
-                    socials: posts[post].socials || [],
-                    contents: posts[post].contents || []
+    update(){
+        const pathname = this.props.location.pathname
+        const { editIndex } = this.state
+        if (editIndex === 0){
+            const postsRef = firebase.database().ref('/posts').orderByChild('posting_date');
+            postsRef.on('value', (snapshot) => {
+                let posts = snapshot.val();
+                let newPosts = [];
+                for (let post in posts) {
+                //     // firebase.database().ref('social').child(post).on('value', (snapshot) => {
+                //     //     let socials = snapshot.val();
+                //     //     for (let social in socials) {
+                //     //         if (socials[social] === true)
+                //     //             socialList.push(social)
+                //     //     }
+                //     // })
+                //     // firebase.database().ref('content').child(post).on('value', (snapshot) => {
+                //     //     let contents = snapshot.val();
+                //     //     for (let content in contents) {
+                //     //         if (contents[content] === true)
+                //     //             contentList.push(content)
+                //     //     }
+                //     // })
+                    var time = new Date(posts[post].posting_date).toDateString()
+                    var add = (pathname === '/') ? true : (posts[post].contents).includes(pathname.substring(1))
+                    if (add) {
+                        newPosts.push({
+                            id: post,
+                            text: posts[post].text,
+                            posting_date: time,
+                            socials: posts[post].socials || [],
+                            contents: posts[post].contents || []
+                        })
+                    }
+                }
+                this.setState({
+                    data: newPosts.reverse(),
+                    dataLoaded: true, 
+                    pathname: pathname,
+                    chosenIndex: 0,
+                    editIndex: 0
                 })
-            }
-            this.setState({
-                data: newPosts.reverse(),
-                dataLoaded: true
+                this.props.handleToggleIndex(0)
             })
-        })
+        }
+        // } else {
+        //     console.log(pathname)
+        //     const contentIDsRef = firebase.database().ref('content' + pathname + '/C');
+        //     // let newPosts = [];
+        //     // contentIDsRef.on('child_added', (snapshot) => {
+        // snapshot.forEach((post_id) => {
+        //     console.log(post_id)
+        // })
+        //     //     var postID = snapshot.key
+        //     //     console.log(postID)
+        //     //     firebase.database().ref('posts').child(postID).once('value', (postSnapShot) => {
+        //     //         var post = postSnapShot.val()
+        //     //         console.log(post)
+        //     //         var time = new Date(post.posting_date).toDateString() 
+        //     //         newPosts.push({
+        //     //             id: postID, 
+        //     //             text: post.text, 
+        //     //             posting_date: time,
+        //     //             socials: post.socials || [],
+        //     //             contents: post.contents || []
+        //     //         })
+        //     //     });
+        //     // })
+        //     contentIDsRef.on('value', (snapshot) => {
+        //         let newPosts = []
+        //         let postIDs = snapshot.val()
+        //         for (let postID in postIDs) {
+        //             console.log(postID)
+        //             firebase.database().ref('posts').child(postID).once('value', (postSnapShot) => {
+        //                 var post = postSnapShot.val()
+        //                 console.log(post)
+        //                 var time = new Date(post.posting_date).toDateString() 
+        //                 newPosts.push({
+        //                     id: postID, 
+        //                     text: post.text, 
+        //                     posting_date: time,
+        //                     socials: post.socials || [],
+        //                     contents: post.contents || []
+        //                 })
+        //             });
+        //         }
+        //         console.log(newPosts)
+        //         // this.setState({
+        //         //     data: newPosts.reverse(),
+        //         //     dataLoaded: true
+        //         // })
+        //         this.setState2(newPosts)
+        //     })
+        // }
+    }
+    
+
+    componentDidMount() {
+        this.update()
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return (nextProps.location.pathname!== prevState.pathname)
+            ? { dataLoaded: false }
+            : null
+    }
+
+    componentDidUpdate(nextProps) {
+        if (this.state.dataLoaded === false) {
+            this.update()
+        }
     }
 
     // update() {

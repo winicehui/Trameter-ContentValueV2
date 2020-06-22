@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Grid } from '@material-ui/core';
+import { Paper, Grid, Divider } from '@material-ui/core';
 import { withRouter } from "react-router";
 
 class contentCard extends Component {
@@ -17,7 +17,6 @@ class contentCard extends Component {
 
     componentDidMount() {
         const { content, J, C, pathname } = this.props
-        console.log(this.props)
         this.setState({
             content: content.content,
             color: content.color,
@@ -31,14 +30,15 @@ class contentCard extends Component {
     
     onClick (){
         const { content } = this.state 
+        const pathname = (content === "All") ? "" : content
         this.props.history.push({
-            pathname: '/' + content
+            pathname: '/' + pathname
         })
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        return (nextProps.pathname!== prevState.pathname)
-            ? { pathname: nextProps.pathname }
+        return (nextProps.pathname!== prevState.pathname || nextProps.C !== prevState.C || nextProps.J !== prevState.J)
+            ? { pathname: nextProps.pathname, C: nextProps.C, J: nextProps.J }
             : null
     }
 
@@ -47,7 +47,7 @@ class contentCard extends Component {
         return (
             isLoaded ? 
             <div> 
-            <Paper elevation = {1} square className = "ContentCard-Border"  style = {{cursor: 'pointer'}}>
+            <Paper elevation = {1} square className = "ContentCard-Border"  style = {{cursor: 'pointer'}} onClick = {this.onClick}>
                 <p className="ContentCard-Label" style={{ backgroundColor: color }}> {content} </p>
                 <Grid
                     container
@@ -63,7 +63,7 @@ class contentCard extends Component {
                     </Grid>
                 </Grid>
             </Paper>
-            {pathname === content ? <p> PAth selected</p> : null }
+                    {pathname === content || (pathname.length === 0 && content === "All") ? <Divider style={{ backgroundColor: '#707070', height: '8px', marginTop: '15px' }} /> : null }
             </div> 
             : null
         );

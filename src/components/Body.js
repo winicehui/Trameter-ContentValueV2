@@ -22,7 +22,7 @@ class Body extends Component {
                 >
                     <Grid item xs={12} sm={6} 
                         style={{ 
-                            maxHeight: '544px', 
+                            maxHeight: '520px', 
                             borderRight: '3px solid #707070', 
                             margin: '0px', 
                             padding: '0px', 

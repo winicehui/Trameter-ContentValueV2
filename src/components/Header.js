@@ -14,14 +14,14 @@ class Header extends Component {
         this.state = {
             C_list: [], 
             J_list: [],
-            pathname: '', 
+            pathname: 'All', 
             isLoaded: false
         }
     }
     
     update(){
         const pathname = this.props.location.pathname.substring(1)
-        console.log(pathname)
+
         const contentsRef = firebase.database().ref('/content');
         contentsRef.on('value', (snapshot) => {
             let categories_C = snapshot.val();
@@ -83,7 +83,7 @@ class Header extends Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         return (nextProps.location.pathname.substring(1) !== prevState.pathname)
-            ? { pathname: nextProps.location.pathname.substring(1), isLoaded: false }
+            ? { isLoaded: false }
             : null
     }
     
@@ -95,7 +95,6 @@ class Header extends Component {
 
     render() {
         const { C_list, J_list, pathname } = this.state
-        console.log(C_list)
 
         return (
             this.state.isLoaded ?
