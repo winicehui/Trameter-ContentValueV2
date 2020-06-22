@@ -13,9 +13,7 @@ class Body extends Component {
     }
 
     handleToggleIndex = (index) => {
-        console.log("Body handleToggleIndex")
-        console.log(index)
-            this.setState({ chosenIndex: index })
+        this.setState({ chosenIndex: index })
     }
 
     render() {

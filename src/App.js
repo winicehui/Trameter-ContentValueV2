@@ -3,6 +3,7 @@ import { Divider } from '@material-ui/core';
 
 import Header from './components/Header'
 import Body from './components/Body'
+
 import './App.css'
 
 class App extends Component {

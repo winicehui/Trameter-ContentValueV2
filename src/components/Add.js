@@ -3,24 +3,11 @@ import { Grid, TextField, Paper, Chip, Button } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 
 import socialList from '../static/social_list'
-import contentList from '../static/content'
+import contentList from '../static/content_list'
+
+import styles from '../static/AddStyles'
 
 import firebase from '../firebase'
-
-const styles = {
-    button: {
-        border: '1px solid #707070',
-        color: '#353B51',
-        '&:active': {
-            border: '2px solid #707070',
-            backgroundColor: '#F2F3F4'
-        },
-        '&:hover': {
-            border: '1.5px solid #707070',
-            backgroundColor: '#F2F3F4'
-        },
-    }
-}
 
 class Add extends Component {
     constructor(props) {
@@ -56,7 +43,7 @@ class Add extends Component {
     }
 
     toggleContent = (content) => {
-        const curr_contents = this.state.content
+        const curr_contents = this.state.social
         const index = curr_contents.indexOf(content.content)
         if (index >= 0){
             curr_contents.splice(index, 1)
@@ -67,11 +54,10 @@ class Add extends Component {
     }
 
     addPost() {
-        const { charCount } = this.state
+        const { charCount, text, social, content } = this.state
         if ( charCount === 0){
             this.setState({ showNoMessage: true })
         } else {
-            const { text, social, content } = this.state
             const postsRef = firebase.database().ref('posts')
             const post = {
                 text: text, 
@@ -80,21 +66,6 @@ class Add extends Component {
                 contents: content
             }
             var newPostKey = postsRef.push(post).key;
-            
-            const post_social = {}
-            const post_content = {}
-
-            socialList.forEach(element => {
-                post_social[element] = social.includes(element)
-            })
-
-            contentList.forEach(element => {
-                if(element.content !== "All")
-                    post_content[element.content] = content.includes(element.content)
-            })
-
-            firebase.database().ref('social/' + newPostKey).set(post_social)
-            firebase.database().ref('content_2/' + newPostKey).set(post_content)
 
             content.forEach(element => {
                 firebase.database().ref('content/' + element + '/C/' + newPostKey).set(true)
@@ -114,6 +85,7 @@ class Add extends Component {
 
     render() {
         const { classes } = this.props;
+        const { charCount, text, social, content, showNoMessage } = this.state
         return (
             <Grid
                 container
@@ -126,14 +98,14 @@ class Add extends Component {
                         <div style = {{padding: '10px'}}> 
                             <TextField fullWidth multiline rows={3} rowsMax={6} 
                                 placeholder = "Content Title or Description" 
-                                value = {this.state.text}
+                                value = {text}
                                 InputProps={{ disableUnderline: true }}
                                 onChange = {this.handleTextChange}
                                 inputProps={{ maxLength: 140 }}
                             />
                             <div> 
-                                {this.state.showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
-                                <p className = "Word-Count" style = {{color: (this.state.charCount >140 || this.state.showNoMessage) ? 'red' : 'black'}}>{this.state.charCount} /140 </p>
+                                { showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
+                                <p className = "Word-Count" style = {{color: showNoMessage ? 'red' : 'black'}}>{charCount} /140 </p>
                             </div>
                         </div>
 
@@ -153,13 +125,13 @@ class Add extends Component {
                                             variant="outlined" 
                                             size="small" 
                                             label={element} 
-                                            onClick={() => this.toggleSocial(element)}
                                             style={{ 
                                                 margin: '5px' ,
-                                                backgroundColor: this.state.social.includes(element) ? '#353B51' : '#FFFFFF', 
-                                                color: this.state.social.includes(element) ? '#FFFFFF' : '#707070'
+                                                backgroundColor: social.includes(element) ? '#353B51' : '#FFFFFF', 
+                                                color: social.includes(element) ? '#FFFFFF' : '#707070'
                                             }}
                                             clickable 
+                                            onClick={() => this.toggleSocial(element)}
                                             key = {i}/>
                                     )
                                 )}
@@ -188,10 +160,11 @@ class Add extends Component {
                                                 margin: '5px', 
                                                 textTransform: 'none', 
                                                 fontFamily: 'Helvetica', 
-                                                backgroundColor: this.state.content.includes(element.content) ? element.color : '#FFFFFF', 
-                                                color: this.state.content.includes(element.content) ? '#FFFFFF' : '#707070' }} 
-                                                key={i}
-                                                onClick  = {() => this.toggleContent(element)}
+                                                backgroundColor: content.includes(element.content) ? element.color : '#FFFFFF', 
+                                                color: content.includes(element.content) ? '#FFFFFF' : '#707070'
+                                            }} 
+                                            onClick  = {() => this.toggleContent(element)}
+                                            key={i}
                                         >
                                             {element.content}
                                         </Button>

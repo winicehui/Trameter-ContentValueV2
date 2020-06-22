@@ -46,7 +46,7 @@ class jobCard extends Component {
         firebase.database().ref('/content/' + content + '/J/' + id).set(
             firebase.database.ServerValue.increment(-1)
         );
-        this.setState({ J: J-1})
+        this.setState({ J: J-1 })
     }
 
     render() {

@@ -6,50 +6,10 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 
 import socialList from '../static/social_list'
-import contentList from '../static/content'
+import contentList from '../static/content_list'
+import styles from '../static/PostCardStyles'
 
 import firebase from '../firebase'
-
-const styles = {
-    button: {
-        border: '1px solid #707070',
-        color: '#353B51',
-        height: '40px',
-        '&:active': {
-            border: '2px solid #707070',
-            backgroundColor: '#F2F3F4'
-        },
-        '&:hover': {
-            border: '1.5px solid #707070',
-            backgroundColor: '#F2F3F4'
-        },
-    },
-    iconButton:{
-        cursor: 'pointer',
-        margin: '0px',
-        float: 'right', 
-        padding: '0px',
-        color: '#707070',
-        '&:active': {
-            color: '#353B51'
-        },
-        '&:hover': {
-            color: '#353B51'
-        },
-    }, 
-    canChoose_disabled: {
-        cursor: 'pointer',
-        "&:disabled": {
-            color: "#707070"
-        }
-    },
-    cantChoose_disabled: {
-        cursor: 'auto',
-        "&:disabled": {
-            color: "#707070"
-        }
-    }
-}
 
 class postCard extends Component {
     constructor(props) {
@@ -103,8 +63,6 @@ class postCard extends Component {
     }
 
     toggleEdit = (e) => {
-        console.log("toggleEdit")
-        console.log(this.state.id)
         e.stopPropagation()
         const { edit, id, editIndex} = this.state
         const newEdit = !edit
@@ -115,7 +73,6 @@ class postCard extends Component {
     }
 
     editPost() {
-        console.log("editPost")
         const { charCount } = this.state
         if (charCount === 0) {
             this.setState({ showNoMessage: true })
@@ -125,7 +82,6 @@ class postCard extends Component {
                 text: text, 
                 posting_date:firebase.database.ServerValue.TIMESTAMP,
             })
-            console.log(id)
             // this.props.handleToggleEditIndex(id)
 
             this.setState({
@@ -136,8 +92,6 @@ class postCard extends Component {
     }
 
     deletePost = (e) => {
-        console.log("deletePost")
-        console.log(this.state.id)
         e.stopPropagation()
         const { id } = this.state
         firebase.database().ref('posts/' + id).remove()
@@ -161,8 +115,6 @@ class postCard extends Component {
     }
 
     choosePost(){
-        console.log("choosePost")
-        console.log(this.state.id)
         const { id } = this.state    
         this.props.handleToggleIndex(id)    
     }
@@ -174,7 +126,7 @@ class postCard extends Component {
     }
 
     render() {
-        const { text, social, content, posting_date, charCount, edit, id, chosenIndex } = this.state
+        const { text, social, content, posting_date, charCount, edit, id, chosenIndex, showNoMessage } = this.state
         // choosePost is true when the chosenIndex is equal to the postCard's id
         const choosePost = (chosenIndex === id)
         const { classes } = this.props;
@@ -223,10 +175,10 @@ class postCard extends Component {
                                     </Grid>
                                 </Grid>
                                 
-                                {this.state.showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
+                                {showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
                                 <div className = "Display-Message">
-                                    <p className = "Word-Count"> Last Updated: {posting_date.substring(0,10)} </p>
-                                    <p className="Word-Count" style={{ color: charCount > 140 ? 'red' : 'black' }}>{charCount} /140 </p>
+                                    <p className = "Word-Count"> Last Updated: {posting_date} </p>
+                                    <p className="Word-Count" style={{ color: showNoMessage ? 'red' : 'black' }}>{charCount} /140 </p>
                                 </div>
                             </div>
 

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container, Grid } from '@material-ui/core';
 
 import JobCard from './jobCard'
-import contentValues from '../static/content'
+import contentValues from '../static/content_list'
 
 import firebase from '../firebase'
 
@@ -69,7 +69,10 @@ class Right extends Component {
                     { contentValues.map((element, i) =>(
                         (element.content !== "All") 
                         ? <Grid item xs={4} sm={4} md={3} lg = {2} key={i} >
-                            <JobCard content={element} id = {id} J = {J_count[element.content] || 0 }/>
+                            <JobCard 
+                                content={element} 
+                                id = {id} 
+                                J = {J_count[element.content] || 0}/>
                           </Grid> 
                         : null
                     ))}

@@ -3,7 +3,7 @@ import { Container, Grid } from '@material-ui/core';
 import { withRouter } from "react-router";
 
 import ContentCard from './contentCard'
-import contentValues from '../static/content'
+import contentValues from '../static/content_list'
 
 import firebase from '../firebase'
 
@@ -23,25 +23,25 @@ class Header extends Component {
 
         const contentsRef = firebase.database().ref('/content');
         contentsRef.on('value', (snapshot) => {
-            let categories_C = snapshot.val();
+            let categories= snapshot.val();
             let C_list = {};
             let J_list = {}
             let all_C = 0
             let all_J = 0
-            for (let category in categories_C) {
+            for (let category in categories) {
                 var count = 0
                 var sum = 0
-                for (let id in categories_C[category]['C']) {
-                    count = count + 1
+                for (let id in categories[category]['C']) {
+                    count += 1
                 }
-                for (let id in categories_C[category]['J']) {
-                    sum = sum + categories_C[category]['J'][id]
+                for (let id in categories[category]['J']) {
+                    sum += categories[category]['J'][id]
                 }
 
                 C_list[category] = count
                 J_list[category] = sum
-                all_C = all_C + count
-                all_J = all_J + sum
+                all_C += count
+                all_J += sum
             }
 
             C_list["All"] = all_C
@@ -87,8 +87,8 @@ class Header extends Component {
                         (<Grid item xs={4} sm={3} md={2} lg = {2} key = {i}>
                             <ContentCard 
                                 content={element} 
-                                C={ C_list[element.content] || 0 } 
-                                J={ J_list[element.content] || 0 } 
+                                C={C_list[element.content] || 0} 
+                                J={J_list[element.content] || 0} 
                                 pathname = {pathname}/>
                         </Grid>)
                     )}

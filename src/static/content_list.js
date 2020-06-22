@@ -1,4 +1,4 @@
-const content_values = [
+const content_list = [
     { content: 'All', 
       color: '#48456D'}, 
     { content: 'Humor', 
@@ -13,4 +13,4 @@ const content_values = [
     color: '#48A798'}
 ]
 
-export default content_values;
+export default content_list;
