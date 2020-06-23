@@ -40,6 +40,7 @@ class postCard extends Component {
         this.editPost = this.editPost.bind(this);
         this.choosePost = this.choosePost.bind(this);
         this.deletePost = this.deletePost.bind(this);
+        this.toggleSocial = this.toggleSocial.bind(this);
     }
 
     componentDidMount(){
@@ -82,8 +83,8 @@ class postCard extends Component {
             firebase.database().ref('posts/'+ id).update({
                 text: text, 
                 posting_date:firebase.database.ServerValue.TIMESTAMP,
+                socials: social
             })
-            // this.props.handleToggleEditIndex(id)
 
             this.setState({
                 edit: false, 
@@ -120,6 +121,18 @@ class postCard extends Component {
     choosePost(){
         const { id } = this.state    
         this.props.handleToggleIndex(id)    
+    }
+
+    toggleSocial = (e, social) => {
+        e.stopPropagation()
+        const curr_socials = this.state.social
+        const index = curr_socials.indexOf(social)
+        if (index >= 0) {
+            curr_socials.splice(index, 1)
+        } else {
+            curr_socials.push(social)
+        }
+        this.setState({ social: curr_socials })
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
@@ -207,8 +220,10 @@ class postCard extends Component {
                                                     margin: '2.5px',
                                                     backgroundColor: social.includes(element) ? '#353B51' : '#FFFFFF',
                                                     color: social.includes(element) ? '#FFFFFF' : '#707070',
-                                                    cursor: !edit ? 'pointer' : 'auto'
-                                                }} key={i} />
+                                                    cursor: 'pointer'
+                                                }}
+                                                onClick = {edit ? (e) => {this.toggleSocial(e, element)} : null} 
+                                                key={i} />
                                         )
                                     )}
                                 </Grid>
