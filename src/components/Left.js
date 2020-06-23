@@ -75,40 +75,40 @@ class Left extends Component {
 
     update(){
         const pathname = this.props.location.pathname
-        const postsRef = firebase.database().ref('/posts');
+        const postsRef = firebase.database().ref('/posts').orderByChild("posting_date");
         postsRef.on('value', (snapshot) => {
-            let posts = snapshot.val();
             let newPosts = [];
-            for (let post in posts) {
-            //     // firebase.database().ref('social').child(post).on('value', (snapshot) => {
-            //     //     let socials = snapshot.val();
-            //     //     for (let social in socials) {
-            //     //         if (socials[social] === true)
-            //     //             socialList.push(social)
-            //     //     }
-            //     // })
-            //     // firebase.database().ref('content').child(post).on('value', (snapshot) => {
-            //     //     let contents = snapshot.val();
-            //     //     for (let content in contents) {
-            //     //         if (contents[content] === true)
-            //     //             contentList.push(content)
-            //     //     }
-            //     // })
-                var time = new Date(posts[post].posting_date).toDateString()
-                var socials = posts[post].socials || []
-                var contents = posts[post].contents || []
+            snapshot.forEach((postSnapShot) => {
+                let post = postSnapShot.val()
+                var time = new Date(post.posting_date).toDateString()
+                var socials = post.socials || []
+                var contents = post.contents || []
                 var add = (pathname === '/') ? true : (contents).includes(pathname.substring(1))
                 if (add) {
                     newPosts.push({
-                        id: post,
-                        text: posts[post].text,
+                        id: postSnapShot.key,
+                        text: post.text,
                         posting_date: time,
                         socials: socials,
                         contents: contents
                     })
                 }
-                newPosts.reverse()
-            }
+            })
+            // firebase.database().ref('social').child(post).on('value', (snapshot) => {
+            //     let socials = snapshot.val();
+            //     for (let social in socials) {
+            //         if (socials[social] === true)
+            //             socialList.push(social)
+            //     }
+            // })
+            // firebase.database().ref('content').child(post).on('value', (snapshot) => {
+            //     let contents = snapshot.val();
+            //     for (let content in contents) {
+            //         if (contents[content] === true)
+            //             contentList.push(content)
+            //     }
+            // })
+            newPosts.reverse()
             this.setState({
                 data: newPosts,
                 chosenIndex: 0,

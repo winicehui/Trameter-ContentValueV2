@@ -48,11 +48,10 @@ class Body extends Component {
                     <Grid 
                         container
                         alignItems='center'
-                        justify='center'
-                        spacing={4}>
+                        justify='center'>
                         <Grid item xs = {8}/>
-                        <Grid item xs={4}> <p style={{ float: 'center', margin: '20px 0 0 0' }}> Total # of posts: {this.state.numPosts}</p>
-                    </Grid>
+                        <Grid item xs={4}> <p style={{ float: 'center', margin: '20px 0 20px 0' }}> Total # of posts: {this.state.numPosts}</p>
+                    </Grid> 
                         
                     </Grid> 
                         <Left handleToggleIndex={this.handleToggleIndex}/>
