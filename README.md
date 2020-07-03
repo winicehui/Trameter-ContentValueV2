@@ -21,7 +21,7 @@ https://www.npmjs.com/get-npm
 
 ### Run Project Locally
 1. Navigate to respository folder in Terminal.
-2. Run: "npm run dev". 
+2. Run: "npm run start". 
 3. Navigate to "localhost:3000" on local web browser to see the application running locally on your machine.
 
 ## Pushing Edits
