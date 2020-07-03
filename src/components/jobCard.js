@@ -53,7 +53,7 @@ class jobCard extends Component {
         const { content, color, J, isLoaded } = this.state
         return (
             isLoaded ? 
-            <Paper elevation={0} square className="ContentCard-Border">
+            <Paper elevation={1} square className="ContentCard-Border">
                 <p className="ContentCard-Label" style={{ backgroundColor: color }}> {content} </p>
                 <Grid
                     container

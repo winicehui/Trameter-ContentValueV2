@@ -13,6 +13,7 @@ class contentCard extends Component {
             isLoaded: false, 
             pathname: ''
         }
+        this.onClick = this.onClick.bind(this);
     }
 
     componentDidMount() {
@@ -25,7 +26,6 @@ class contentCard extends Component {
             isLoaded: true,
             pathname: pathname
         })
-        this.onClick = this.onClick.bind(this);
     }
     
     onClick (){

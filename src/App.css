@@ -1,6 +1,7 @@
 .Title{
     text-align: center;
-    color: #353B51
+    color: #353B51;
+    cursor: pointer
 }
 
 .ContentCard-Text{

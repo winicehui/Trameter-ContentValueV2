@@ -16,8 +16,15 @@ class Header extends Component {
             pathname: 'All', 
             isLoaded: false
         }
+        this.onClick = this.onClick.bind(this);
     }
-    
+
+    onClick() {
+        this.props.history.push({
+            pathname: '/'
+        })
+    }    
+
     update(){
         const pathname = this.props.location.pathname.substring(1)
 
@@ -78,7 +85,7 @@ class Header extends Component {
         return (
             this.state.isLoaded ?
             <Container>
-                <h1 className = "Title"> Content Value </h1>
+                    <h1 className="Title" onClick={this.onClick}> Content Value </h1>
                 <Grid 
                     container 
                     spacing={8}
