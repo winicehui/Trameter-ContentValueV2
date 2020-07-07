@@ -83,7 +83,7 @@ class Add extends Component {
 
                 showNoMessage: false, 
                 showNoSocial: false, 
-                snowNoContent: false
+                showNoContent: false
             }) 
         } 
     }
