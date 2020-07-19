@@ -182,6 +182,7 @@ class postCard extends Component {
                                             onChange={this.handleTextChange}
                                             disabled = {!edit}
                                             inputProps = {{ maxLength: 140}}
+                                            autoFocus
                                         />
                                     </Grid>
                                     <Grid item xs={1}>

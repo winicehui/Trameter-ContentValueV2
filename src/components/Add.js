@@ -107,6 +107,7 @@ class Add extends Component {
                                 InputProps={{ disableUnderline: true }}
                                 onChange = {this.handleTextChange}
                                 inputProps={{ maxLength: 140 }}
+                                autoFocus
                             />
                             <div> 
                                 { showNoMessage ? <p className="Shorten-Message"> You must provide text to save. </p> : null}
