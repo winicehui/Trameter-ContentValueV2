@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom'
 
-import { Grid, Button, TextField, Container } from '@material-ui/core';
-import InputAdornment from '@material-ui/core/InputAdornment'
+import { Grid, Button, TextField, Container, InputAdornment } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import { withStyles } from "@material-ui/core/styles";
 
@@ -94,20 +93,6 @@ class Left extends Component {
                     })
                 }
             })
-            // firebase.database().ref('social').child(post).on('value', (snapshot) => {
-            //     let socials = snapshot.val();
-            //     for (let social in socials) {
-            //         if (socials[social] === true)
-            //             socialList.push(social)
-            //     }
-            // })
-            // firebase.database().ref('content').child(post).on('value', (snapshot) => {
-            //     let contents = snapshot.val();
-            //     for (let content in contents) {
-            //         if (contents[content] === true)
-            //             contentList.push(content)
-            //     }
-            // })
             newPosts.reverse()
             this.setState({
                 data: newPosts,

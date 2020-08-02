@@ -1,5 +1,5 @@
 # Trameter - Content Value Web Application
-Developing a powerful internal tool to capture and evaluate the value people perceive from our content; Modeleted after the Cultural Cartography tool created by Buzzfeed 
+Developing a powerful internal tool to capture and evaluate the value people perceive from our content; Modeled after Buzzfeed's concept of Cultural Cartography 
 
 ### Online
 Firebase Hosting URL:
@@ -21,7 +21,7 @@ https://www.npmjs.com/get-npm
 
 ### Run Project Locally
 1. Navigate to respository folder in Terminal.
-2. Run: "npm run start". 
+2. Run: "npm start". 
 3. Navigate to "localhost:3000" on local web browser to see the application running locally on your machine.
 
 ## Pushing Edits
@@ -32,5 +32,5 @@ https://www.npmjs.com/get-npm
 3. Run: "git push"
 
 ### To deploy edits to Firebase:
-1. Run "npm build" in Terminal. 
+1. Run "npm run build" in Terminal. 
 2. Run "firebase deploy -m message" in Terminal.

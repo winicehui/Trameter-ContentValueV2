@@ -4,7 +4,6 @@ import { withStyles } from "@material-ui/core/styles";
 
 import socialList from '../static/social_list'
 import contentList from '../static/content_list'
-
 import styles from '../static/AddStyles'
 
 import firebase from '../firebase'

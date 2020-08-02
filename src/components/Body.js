@@ -56,7 +56,6 @@ class Body extends Component {
                     </Grid> 
                         <Left handleToggleIndex={this.handleToggleIndex}/>
                     </Grid>
-                    {/* <Divider orientation="vertical" flexItem /> */}
                     <Grid item xs={12} sm={6} style={{ borderLeft: '3px solid #707070'}}>
                         { this.state.chosenIndex !== 0 
                             ? <Right id = {this.state.chosenIndex} /> 
