@@ -28,6 +28,8 @@ class Left extends Component {
             search: '',
             searched_data: [], 
             searched_dataLoaded: false, 
+
+            authorizedUsers: []
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -72,7 +74,12 @@ class Left extends Component {
         }
     }
 
-    update(){
+    async update(){
+        let authorizedUsers = []
+        await firebase.database().ref('authorizedEmails').on('value', (snapshot) => {
+            authorizedUsers = snapshot.val()
+        })
+
         const pathname = this.props.location.pathname
         const postsRef = firebase.database().ref('/posts').orderByChild("posting_date");
         postsRef.on('value', (snapshot) => {
@@ -101,7 +108,8 @@ class Left extends Component {
                 pathname: pathname,
                 search: '', 
                 searched_data: newPosts, 
-                searched_dataLoaded: true
+                searched_dataLoaded: true, 
+                authorizedUsers: authorizedUsers
             })
             this.props.handleToggleIndex(0)
         })
@@ -137,7 +145,8 @@ class Left extends Component {
 
     render() {
         const { classes } = this.props;
-        const { text, searched_dataLoaded, searched_data, isOpen, chosenIndex, editIndex } = this.state
+        const { text, searched_dataLoaded, searched_data, isOpen, chosenIndex, editIndex, authorizedUsers } = this.state
+        let canEdit = authorizedUsers.includes(firebase.auth().currentUser.email)
         return (    
             searched_dataLoaded ?
                 <Container>
@@ -150,12 +159,13 @@ class Left extends Component {
                     >
                         <Grid item xs={12} sm={12} md={5} lg={4} >
                             <Button 
-                                variant="outlined" 
-                                fullWidth 
-                                className = {classes.button} 
-                                onClick = {this.handleOpen}
-                            > 
-                                Add Content </Button>
+                                    variant="outlined" 
+                                    fullWidth 
+                                    className = {classes.button} 
+                                    onClick = {this.handleOpen}
+                                    disabled = {!canEdit}
+                                > 
+                             Add Content </Button>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={7} lg={7} >
