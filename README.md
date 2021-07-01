@@ -13,9 +13,12 @@ https://contentvalue-8195c.web.app/
 ## Functionalities (see Video Below for more information)
 * CRUD operations (Add, Edit, Delete content; Increment/Decrement job counts)
 * Real time updates (with Firebase)
-* Filtering by job
+* Filtering by job type
 * Basic text search
 * URL Routing (URL path parameters for job)
+
+https://user-images.githubusercontent.com/35130094/124191956-67110a00-da79-11eb-9efe-06b4998e140d.mp4
+
 ## Set-up
 
 ### Requirements
