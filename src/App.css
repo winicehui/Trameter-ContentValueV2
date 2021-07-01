@@ -1,17 +1,20 @@
 .Title{
     text-align: center;
     color: #353B51;
-    cursor: pointer
+    cursor: pointer;
+    font-size: 29px
 }
 
 .ContentCard-Text{
     text-align: center;
+    font-size: 16px;
     margin: 0px;
     padding: 0px
 }
 
 .ContentCard-Label{
     text-align: center;
+    font-size: 16px;
     color: #ffffff;
     padding: 8px;
     margin: 0px;

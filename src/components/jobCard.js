@@ -58,13 +58,13 @@ class jobCard extends Component {
                     justify='center'
                 >
                     <Grid item xs={3} className="ContentCard-BorderSplit" style = {{ height: '27px' }}>
-                        <RemoveIcon style = {{float: 'center', cursor: 'pointer'}} onClick = {this.decrement} />
+                        <RemoveIcon style = {{float: 'center', cursor: 'pointer', fontSize: '23px', margin: '3px 0px'}} onClick = {this.decrement} />
                     </Grid>
                     <Grid item xs={6} className="ContentCard-BorderSplit" style={{ height: '27px', backgroundColor: '#353B51', color: '#FFFFFF', }}>
-                        <p style={{ margin: '4px', textAlign: 'center', verticalAlign: 'center'}}>{J}</p>
+                        <p style={{ margin: '3px', textAlign: 'center', verticalAlign: 'center'}}>{J}</p>
                     </Grid>
                     <Grid item xs={3} style={{ height: '27px' }}>
-                        <AddIcon style={{ float: 'center', cursor: 'pointer' }} onClick = {this.increment} />
+                            <AddIcon style={{ float: 'center', cursor: 'pointer', fontSize: '23px', margin: '3px 0px' }} onClick = {this.increment} />
                     </Grid>
                 </Grid>
             </Paper>

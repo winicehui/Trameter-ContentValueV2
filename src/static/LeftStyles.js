@@ -1,5 +1,6 @@
 const styles = {
     root: {
+        fontSize: '16px',
         '& .MuiOutlinedInput-root': {
             '& fieldset': {
                 border: '1px solid #707070',
@@ -13,6 +14,9 @@ const styles = {
                 color: '#353B51'
             },
         }
+    },
+    resize: {
+        fontSize: '16px'
     },
     button: {
         border: '1px solid #707070',

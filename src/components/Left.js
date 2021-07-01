@@ -132,7 +132,7 @@ class Left extends Component {
     }
 
     handleSearch = (e) => {
-        const search_text = e.target.value
+        const search_text = e.target.value.toLowerCase()
         const { data } = this.state
         let filtered_results = [] 
         data.forEach( element => {
@@ -154,7 +154,7 @@ class Left extends Component {
                         container
                         alignItems = 'center'
                         justify= 'center'
-                        style = {{padding: '0 20px 20px 20px'}}
+                        style = {{padding: '0 20px 20px 20px', fontSize: '16px'}}
                         spacing = {4}
                     >
                         <Grid item xs={12} sm={12} md={5} lg={4} >
@@ -165,7 +165,7 @@ class Left extends Component {
                                     onClick = {this.handleOpen}
                                     disabled = {!canEdit}
                                 > 
-                             Add Content </Button>
+                                <p style={{ fontSize: '16px' }}> Add Content </p> </Button>
                         </Grid>
 
                         <Grid item xs={12} sm={12} md={7} lg={7} >
@@ -182,6 +182,9 @@ class Left extends Component {
                                             <SearchIcon/>
                                         </InputAdornment>
                                     ),
+                                    classes: {
+                                        input: classes.resize
+                                    }
                                 }}
                                 onChange={this.handleSearch}
                                 value={text}

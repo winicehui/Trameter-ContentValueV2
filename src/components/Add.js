@@ -103,7 +103,7 @@ class Add extends Component {
                             <TextField fullWidth multiline rows={3} rowsMax={6} 
                                 placeholder = "Content Title or Description" 
                                 value = {text}
-                                InputProps={{ disableUnderline: true }}
+                                InputProps={{ disableUnderline: true, style : {fontSize: '16px'} }}
                                 onChange = {this.handleTextChange}
                                 inputProps={{ maxLength: 140 }}
                                 autoFocus
@@ -134,6 +134,7 @@ class Add extends Component {
                                             label={element} 
                                             style={{ 
                                                 margin: '5px' ,
+                                                fontSize: '13px',
                                                 backgroundColor: social.includes(element) ? '#353B51' : '#FFFFFF', 
                                                 color: social.includes(element) ? '#FFFFFF' : '#707070'
                                             }}
@@ -165,6 +166,7 @@ class Add extends Component {
                                             style={{ 
                                                 width: '85px', 
                                                 margin: '5px', 
+                                                fontSize: '13px',
                                                 textTransform: 'none', 
                                                 fontFamily: 'Helvetica', 
                                                 backgroundColor: content.includes(element.content) ? element.color : '#FFFFFF', 
@@ -184,7 +186,8 @@ class Add extends Component {
                 </Grid>
 
                 <Grid item xs={2} sm={2} md={1} lg={1} style={{ margin: '10px 0 10px 0' }}>
-                    <Button variant = "outlined" fullWidth className = {classes.button} onClick={this.addPost}> Save </Button>
+                    <Button variant = "outlined" style = {{fontSize: '16px'}} fullWidth className = {classes.button} onClick={this.addPost}> 
+                        Save</Button>
                 </Grid>
             </Grid>
         );

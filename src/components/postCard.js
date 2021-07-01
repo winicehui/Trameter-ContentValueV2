@@ -177,7 +177,8 @@ class postCard extends Component {
                                             value={text}
                                             InputProps={{ 
                                                 disableUnderline: true, 
-                                                classes: { disabled: !edit ? classes.canChoose_disabled : classes.cantChoose_disabled }
+                                                classes: { disabled: !edit ? classes.canChoose_disabled : classes.cantChoose_disabled }, 
+                                                style : {fontSize: '16px'}
                                             }}
                                             onChange={this.handleTextChange}
                                             disabled = {!edit}
@@ -218,7 +219,8 @@ class postCard extends Component {
                                                 size="small" 
                                                 label={element}
                                                 style={{
-                                                    margin: '2.5px',
+                                                    margin: '5px',
+                                                    fontSize: '13px',
                                                     backgroundColor: social.includes(element) ? '#353B51' : '#FFFFFF',
                                                     color: social.includes(element) ? '#FFFFFF' : '#707070',
                                                     cursor: 'pointer'
@@ -251,6 +253,7 @@ class postCard extends Component {
                                                     style={{
                                                         width: '85px',
                                                         margin: '5px', 
+                                                        fontSize: '13px',
                                                         textTransform: 'none', 
                                                         fontFamily: 'Helvetica',
                                                         backgroundColor: content.includes(element.content) ? element.color : '#FFFFFF',

@@ -1,12 +1,21 @@
 # Trameter - Content Value Web Application
-Developing a powerful internal tool to capture and evaluate the value people perceive from our content; Modeled after Buzzfeed's concept of Cultural Cartography 
+Developing a powerful internal tool to capture and evaluate the value people perceive from our content by tracking the intended job a social media post is aiming to achieve, and what it actually achieves; Modeled after Buzzfeed's concept of Cultural Cartography (https://www.treeshake.com/twig/what-makes-content-go-viral)
 
 ### Online
 Firebase Hosting URL:
 ```
 https://contentvalue-8195c.web.app/
 ```
+## Terminology
+* Content: The content of a post that is shared to social media platforms
+* Job (Ex: 'Humor', 'This is me'): The result that the content is doing for the reader or the viewer 
 
+## Functionalities (see Video Below for more information)
+* CRUD operations (Add, Edit, Delete content; Increment/Decrement job counts)
+* Real time updates (with Firebase)
+* Filtering by job
+* Basic text search
+* URL Routing (URL path parameters for job)
 ## Set-up
 
 ### Requirements
